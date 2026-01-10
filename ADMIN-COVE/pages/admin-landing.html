@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard | COVE Coffee</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/admin_landing.css">
+
+  
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo-wrapper">
+            <img src="../img/COVE-LOGO-removebg-preview.png" alt="COVE Logo" class="sidebar-logo">
+            <h2 class="logo-text">COVE Admin</h2>
+        </div>
+        <ul>
+            <li><a href="admin-landing.html" class="active">Dashboard</a></li>
+            <li><a href="#">Orders</a></li>
+            <li><a href="#">Products</a></li>
+            <li><a href="#">Employees</a></li>
+            <li><a href="../index.html">Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <header>
+            <h1>Welcome, Admin!</h1>
+            <p>Manage your coffee shop efficiently.</p>
+        </header>
+
+        <!-- Sales Inventory -->
+        <section class="sales-inventory">
+            <h2>Sales Inventory</h2>
+            <div class="cards">
+                <div class="card" data-modal="modal-today">
+                    <h3>Today</h3>
+                    <p>0</p>
+                </div>
+                <div class="card" data-modal="modal-week">
+                    <h3>This Week</h3>
+                    <p>0</p>
+                </div>
+                <div class="card" data-modal="modal-month">
+                    <h3>This Month</h3>
+                    <p>0</p>
+                </div>
+                <div class="card" data-modal="modal-year">
+                    <h3>This Year</h3>
+                    <p>0</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Cards -->
+        <section class="dashboard-cards">
+            <div class="cards">
+                <div class="card" data-modal="modal-orders">
+                    <h3>Orders</h3>
+                    <p>125</p>
+                </div>
+                <div class="card" data-modal="modal-products">
+                    <h3>Products</h3>
+                    <p></p>
+                </div>
+                <div class="card" data-modal="modal-employees">
+                    <h3>Employees</h3>
+                    <p></p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modals -->
+    <!-- Sales Today -->
+    <div id="modal-today" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Today's Sales</h2>
+            <canvas id="chart-today" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <!-- Sales Week -->
+    <div id="modal-week" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>This Week's Sales</h2>
+            <canvas id="chart-week" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <!-- Sales Month -->
+    <div id="modal-month" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>This Month's Sales</h2>
+            <canvas id="chart-month" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <!-- Sales Year -->
+    <div id="modal-year" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>This Year's Sales</h2>
+            <canvas id="chart-year" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    
+    <!-- Products Modal -->
+    <div id="modal-products" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Products Details</h2>
+            <ul>
+                <li>Espresso - 20 sold</li>
+                <li>Cappuccino - 15 sold</li>
+                <li>Latte - 10 sold</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Employees Modal -->
+    <div id="modal-employees" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Employees Points</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Customers Served Today</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>jeryl</td>
+                        <td>12</td>
+                    </tr>
+                    <tr>
+                        <td>nadzrin</td>
+                        <td>15</td>
+                    </tr>
+                    <tr>
+                        <td>alalong</td>
+                        <td>10</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+ 
+    
+</body>
+</html>
+<script>
+// Open/close modals
+const cards = document.querySelectorAll('.card');
+cards.forEach(card => {
+    card.addEventListener('click', () => {
+        const modalId = card.getAttribute('data-modal');
+        document.getElementById(modalId).style.display = 'block';
+    });
+});
+
+const closes = document.querySelectorAll('.modal .close');
+closes.forEach(btn => {
+    btn.addEventListener('click', () => {
+        btn.closest('.modal').style.display = 'none';
+    });
+});
+
+window.addEventListener('click', (e) => {
+    if (e.target.classList.contains('modal')) e.target.style.display = 'none';
+});
+
+// Sales data
+const salesData = {
+    today: [200, 400, 150, 300, 200, 100, 250],
+    week: [1200, 1500, 1100, 1300, 1400, 1700, 1600],
+    month: [5000, 7000, 6000, 6500, 7200, 6800, 7100],
+    year: [35000, 40000, 38000, 42000, 45000, 47000, 50000, 48000, 52000, 55000, 58000, 60000]
+};
+
+// Function to create charts
+function createChart(ctxId, data, label) {
+    const ctx = document.getElementById(ctxId).getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: data.map((_, i) => `Point ${i+1}`),
+            datasets: [{
+                label: label,
+                data: data,
+                borderColor: '#ff8c42',
+                backgroundColor: 'rgba(255,140,66,0.2)',
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } }
+        }
+    });
+}
+
+// Initialize charts
+createChart('chart-today', salesData.today, "Today's Sales");
+createChart('chart-week', salesData.week, "This Week's Sales");
+createChart('chart-month', salesData.month, "This Month's Sales");
+createChart('chart-year', salesData.year, "This Year's Sales");
+</script>

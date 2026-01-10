@@ -96,24 +96,83 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-
-        .admin-btn {
-            background: #6b5b3e;
-            color: #ffffff;
+         body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
         }
 
-        .admin-btn:hover {
-            background: #5a4b33;
+        /* Splash screen */
+        .splash {
+            position: fixed;
+            inset: 0;
+            background: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            cursor: pointer;
+            transition: opacity 0.8s ease, transform 0.8s ease;
         }
 
-        .employee-btn {
-            background: #d9d2b6;
-            color: #5a4b33;
+        .splash.hide {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.1);
         }
 
-        .employee-btn:hover {
-            background: #cfc7a7;
+        .splash-logo h1 {
+            font-size: 80px;
+            letter-spacing: 6px;
+            margin: 0;
+            color: #fff;
         }
+
+        .splash-logo span {
+            display: block;
+            text-align: center;
+            letter-spacing: 4px;
+            font-size: 18px;
+            color: #c9c9c9;
+        }
+
+        /* Main content hidden initially */
+        .container {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .container.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+       /* Base button design (used by BOTH buttons) */
+.employee-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 22px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none; /* REQUIRED for <a> */
+  transition: background 0.3s ease;
+}
+
+/* Admin color override */
+.admin-btn {
+  background: #6b5b3e;
+  color: #ffffff;
+}
+
+/* Admin hover */
+.admin-btn:hover {
+  background: #5a4b33;
+}
 
         /* Footer text */
         .footer {
@@ -121,3 +180,25 @@
             font-size: 12px;
             color: #7a6c4f;
         }
+.splash-logo {
+    text-align: center;
+}
+
+.splash-img {
+    width: 180px;          /* adjust size */
+    max-width: 60%;
+    margin-bottom: 20px;
+    animation: fadeIn 1.2s ease;
+}
+
+/* Optional soft animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

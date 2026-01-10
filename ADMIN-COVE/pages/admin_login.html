@@ -5,41 +5,46 @@
     <title>Admin Login | COVE COFFEE SHOP</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Connect CSS -->
-    <link rel="stylesheet" href="css/style.css">
-
     <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Connect CSS -->
+    <link rel="stylesheet" href="../css/admin_login.css">
 </head>
 <body>
 
-    <!-- Bubble background -->
+    <!-- Bubble Background -->
     <div class="bubble one"></div>
     <div class="bubble two"></div>
     <div class="bubble three"></div>
 
-    <!-- Login container -->
+    <!-- Login Container -->
     <div class="container">
+        <div class="login-wrapper">
+            <h2 class="login-title">Admin Login</h2>
+            <form class="login-form">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter username" >
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter password" >
+                </div>
 
-        <!-- Logo -->
-        <div class="logo">
-            <h1>COVE</h1>
-            <span>ADMIN</span>
+        <button type="button" class="login-btn" onclick="window.location.href='admin-landing.html'">
+    Log In
+</button>
+
+
+
+
+            </form>
+            <div class="footer">
+                <a href="../index.html">← Back to Home</a>
+
+            </div>
         </div>
-
-        <!-- Login form -->
-        <form class="login-form">
-            <input type="text" placeholder="Admin Username" required>
-            <input type="password" placeholder="Password" required>
-
-            <button type="submit" class="admin-btn">Log In</button>
-        </form>
-
-        <!-- Back link -->
-        <div class="footer">
-            <a href="index.html">← Back to Home</a>
-        </div>
-
     </div>
 
 </body>
