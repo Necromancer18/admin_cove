@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sales Inventory | COVE Coffee</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    display: flex;
+    min-height: 100vh;
+    background: #f7f4ea;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    background-color: #6b5b3e;
+    color: #fff;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo-wrapper {
+    text-align: center;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.sidebar-logo {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto 10px;
+}
+
+.logo-text {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    margin: 0;
+}
+
+.sidebar ul {
+    list-style: none;
+    width: 100%;
+    padding: 0;
+}
+
+.sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+    background-color: #5a4b33;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 40px;
+}
+
+/* Headers */
+header h1 {
+    font-size: 2rem;
+    color: #6b5b3e;
+}
+
+header p {
+    font-size: 1rem;
+    color: #7a6c4f;
+    margin-bottom: 30px;
+}
+
+/* Orders Section */
+.orders-section {
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.orders-section h2 {
+    font-size: 1.5rem;
+    color: #6b5b3e;
+    margin-bottom: 15px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-header button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #ff8c42;
+    color: #fff;
+    font-weight: 500;
+    transition: 0.3s;
+    margin-left: 5px;
+}
+
+.section-header button:hover {
+    background: #e67e22;
+}
+
+/* Tables */
+.orders-table, .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.orders-table th, .orders-table td,
+.summary-table th, .summary-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.orders-table th, .summary-table th {
+    background-color: #6b5b3e;
+    color: #fff;
+}
+
+.summary-table th, .summary-table td {
+    background-color: #f7f4ea;
+    color: #6b5b3e;
+}
+
+/* Modals */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.modal .close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.modal .close:hover {
+    color: #ff8c42;
+}
+
+/* Filters */
+.filters {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.filters select {
+    padding: 5px 8px;
+    border: 1px solid #6b5b3e;
+    border-radius: 5px;
+}
+</style>
+
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <div class="logo-wrapper">
+        <img src="../img/COVE-LOGO-removebg-preview.png" class="sidebar-logo" style="width:80px;">
+        <h2 class="logo-text">COVE Admin</h2>
+    </div>
+    <ul>
+        <li><a href="admin-landing.html">Dashboard</a></li>
+        <li><a href="admin_orders.html" class="active">Sales</a></li>
+        <li><a href="admin_products.html">Products</a></li>
+        <li><a href="admin_employee.html">Employees</a></li>
+        <li><a href="../index.html">Logout</a></li>
+    </ul>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+<header>
+    <h1>Sales Inventory</h1>
+    <p id="currentDate"></p>
+</header>
+
+<section class="orders-section">
+    <div class="section-header">
+        <h2>Today's Transactions</h2>
+        <div>
+            <button onclick="showPinModal()">Next Day Sales</button>
+            <button onclick="printToday()">Print End-of-Day</button>
+            <button onclick="showReport('monthly')">Monthly Report</button>
+            <button onclick="showReport('yearly')">Yearly Report</button>
+        </div>
+    </div>
+
+    <!-- Today's Sales Table -->
+    <table class="orders-table" id="todayTable">
+        <thead>
+            <tr>
+                <th>Order #</th>
+                <th>Date & Time</th>
+                <th>Items</th>
+                <th>Size</th>
+                <th>Payment</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <!-- Today's Sales Totals -->
+    <table class="summary-table">
+        <thead>
+            <tr>
+                <th>Cash Total</th>
+                <th>GCash Total</th>
+                <th>Overall Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>₱<span id="cashTotal">0</span></td>
+                <td>₱<span id="gcashTotal">0</span></td>
+                <td>₱<span id="overallTotal">0</span></td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="orders-section">
+    <h2>All Transactions (Permanent Record)</h2>
+    <table class="orders-table" id="allTable">
+        <thead>
+            <tr>
+                <th>Order #</th>
+                <th>Date & Time</th>
+                <th>Items</th>
+                <th>Size</th>
+                <th>Payment</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</section>
+</div>
+
+<!-- PIN MODAL -->
+<div id="pinModal" class="modal">
+    <div class="modal-content">
+        <h2>Admin PIN Required</h2>
+        <input type="password" id="adminPin" placeholder="Enter PIN">
+        <div class="modal-actions">
+            <button onclick="verifyPin()">Confirm</button>
+            <button onclick="closePinModal()">Cancel</button>
+        </div>
+        <p id="pinError" style="color:red;"></p>
+    </div>
+</div>
+
+<!-- REPORT MODAL -->
+<div id="reportModal" class="modal">
+    <div class="modal-content">
+        <h2 id="reportTitle"></h2>
+
+        <div class="filters">
+            <select id="monthSelect"></select>
+            <select id="yearSelect"></select>
+        </div>
+
+        <table class="orders-table" id="reportTable">
+            <thead>
+                <tr>
+                    <th>Order #</th>
+                    <th>Date & Time</th>
+                    <th>Items</th>
+                    <th>Size</th>
+                    <th>Payment</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="reportBody"></tbody>
+        </table>
+
+        <table class="summary-table">
+            <thead>
+                <tr>
+                    <th>Cash Total</th>
+                    <th>GCash Total</th>
+                    <th>Overall Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>₱<span id="reportCashTotal">0</span></td>
+                    <td>₱<span id="reportGcashTotal">0</span></td>
+                    <td>₱<span id="reportOverallTotal">0</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="modal-actions">
+            <button onclick="closeReport()">Close</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// --- INITIAL SETUP ---
+let orderCount = parseInt(localStorage.getItem('orderCount')) || 1001;
+let cashTotal = 0;
+let gcashTotal = 0;
+const adminPinCode = "1234";
+
+function getCurrentDate() {
+    const today = new Date();
+    return `${today.toDateString()} (9:00 AM - 10:00 PM)`;
+}
+document.getElementById('currentDate').textContent = "Business Date: " + getCurrentDate();
+
+let todayOrders = [];
+let allOrders = JSON.parse(localStorage.getItem('allOrders')) || [];
+
+// --- ADD ORDER ---
+function addOrder(items, size, payment, total){
+    total = parseFloat(total);
+    const date = new Date().toISOString(); // ISO for reliable parsing
+    const order = {id: orderCount, date, items, size, payment, total};
+    todayOrders.push(order);
+    allOrders.push(order);
+    localStorage.setItem('allOrders', JSON.stringify(allOrders));
+    orderCount++;
+    localStorage.setItem('orderCount', orderCount);
+    renderTables();
+}
+
+// --- RENDER TABLES ---
+function renderTables(){
+    const todayBody = document.querySelector('#todayTable tbody');
+    const allBody = document.querySelector('#allTable tbody');
+    todayBody.innerHTML = '';
+    allBody.innerHTML = '';
+    cashTotal = 0; gcashTotal = 0;
+
+    todayOrders.forEach(order=>{
+        todayBody.innerHTML += tableRow(order);
+        allBody.innerHTML += tableRow(order);
+        if(order.payment==="Cash") cashTotal += order.total;
+        else gcashTotal += order.total;
+    });
+
+    document.getElementById('cashTotal').textContent = cashTotal.toFixed(2);
+    document.getElementById('gcashTotal').textContent = gcashTotal.toFixed(2);
+    document.getElementById('overallTotal').textContent = (cashTotal + gcashTotal).toFixed(2);
+}
+
+function tableRow(order){
+    return `<tr>
+        <td>${order.id}</td>
+        <td>${new Date(order.date).toLocaleString()}</td>
+        <td>${order.items}</td>
+        <td>${order.size}</td>
+        <td>${order.payment}</td>
+        <td>₱${order.total.toFixed(2)}</td>
+    </tr>`;
+}
+
+// --- PIN MODAL ---
+function showPinModal(){ 
+    document.getElementById('pinModal').style.display='flex'; 
+    document.body.style.overflow = 'hidden';
+}
+function closePinModal(){ 
+    document.getElementById('pinModal').style.display='none'; 
+    document.getElementById('pinError').textContent=''; 
+    document.body.style.overflow = '';
+}
+function verifyPin(){
+    const pin = document.getElementById('adminPin').value;
+    if(pin === adminPinCode){
+        todayOrders = [];
+        renderTables();
+        closePinModal();
+        alert("Next day sales started!");
+    } else {
+        document.getElementById('pinError').textContent='Incorrect PIN!';
+    }
+}
+
+// --- PRINT ---
+function printToday(){
+    let printContent = `<style>
+        body{font-family:'Poppins',sans-serif; background:#f7f4ea; margin:20px;}
+        table{width:100%; border-collapse:collapse;}
+        th,td{border:1px solid #ddd; padding:10px; text-align:center;}
+        th{background-color:#6b5b3e; color:#fff;}
+    </style>`;
+    printContent += "<h2>End of Day Report</h2>";
+    printContent += `<p>Date: ${getCurrentDate()}</p>`;
+    printContent += document.getElementById('todayTable').outerHTML;
+    printContent += `<table border='1' style='width:100%; margin-top:10px;'>
+                        <tr><th>Cash Total</th><th>GCash Total</th><th>Overall Total</th></tr>
+                        <tr><td>₱${cashTotal.toFixed(2)}</td><td>₱${gcashTotal.toFixed(2)}</td><td>₱${(cashTotal+gcashTotal).toFixed(2)}</td></tr>
+                     </table>`;
+    const win = window.open('', '', 'height=700,width=900');
+    win.document.write(printContent);
+    win.document.close();
+    win.print();
+}
+
+// --- REPORTS ---
+function showReport(type){
+    populateMonthYear();
+    const now = new Date();
+    let filtered = allOrders.filter(o => {
+        const orderDate = new Date(o.date);
+        if(type==="monthly") return orderDate.getMonth()===now.getMonth() && orderDate.getFullYear()===now.getFullYear();
+        else return orderDate.getFullYear()===now.getFullYear();
+    });
+
+    let tbody = document.getElementById('reportBody');
+    tbody.innerHTML = '';
+    let cash=0, gcash=0;
+    filtered.forEach(o=>{
+        tbody.innerHTML += tableRow(o);
+        if(o.payment==="Cash") cash+=o.total;
+        else gcash+=o.total;
+    });
+
+    document.getElementById('reportTitle').textContent = type==="monthly"?"Monthly Sales Report":"Yearly Sales Report";
+    document.getElementById('reportCashTotal').textContent = cash.toFixed(2);
+    document.getElementById('reportGcashTotal').textContent = gcash.toFixed(2);
+    document.getElementById('reportOverallTotal').textContent = (cash+gcash).toFixed(2);
+
+    document.getElementById('reportModal').style.display='flex';
+    document.body.style.overflow='hidden';
+}
+
+function closeReport(){ 
+    document.getElementById('reportModal').style.display='none';
+    document.body.style.overflow='';
+}
+
+// --- MONTH/YEAR SELECTS ---
+function populateMonthYear(){
+    const monthSelect = document.getElementById('monthSelect');
+    const yearSelect = document.getElementById('yearSelect');
+    monthSelect.innerHTML = '';
+    for(let i=0;i<12;i++){
+        monthSelect.innerHTML += `<option value="${i}">${new Date(0, i).toLocaleString('default', {month:'long'})}</option>`;
+    }
+    yearSelect.innerHTML = '';
+    const yearNow = new Date().getFullYear();
+    for(let y=yearNow; y>=2023; y--){
+        yearSelect.innerHTML += `<option value="${y}">${y}</option>`;
+    }
+}
+
+// --- SAMPLE DATA ---
+if(allOrders.length===0){
+    addOrder("Latte, Croissant", "12oz", "Cash", 180);
+    addOrder("Americano", "16oz", "GCash", 220);
+    addOrder("Milk Tea", "12oz", "Cash", 150);
+} else {
+    renderTables();
+}
+</script>
+</body>
+</html>

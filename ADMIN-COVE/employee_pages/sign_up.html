@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Employee Sign Up | COVE COFFEE SHOP</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Body Styling */
+body {
+    height: 100vh;
+    background: #f7f4ea;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Main container */
+.container {
+    background: #fff;
+    padding: 45px 35px;
+    width: 360px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Title */
+.login-title {
+    font-size: 1.9rem;
+    font-weight: 600;
+    color: #6b5b3e;
+    margin-bottom: 25px;
+}
+
+/* Input Group */
+.input-group {
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #7a6c4f;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #6b5b3e;
+    outline: none;
+    box-shadow: 0 0 8px rgba(107,91,62,0.3);
+}
+
+/* Buttons */
+.signup-btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 30px;
+    background-color: #ff8c42;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s ease;
+    margin-top: 10px;
+}
+
+.signup-btn:hover {
+    background-color: #e67e22;
+}
+
+.error-msg {
+    color: #e74c3c;
+    margin-top: 8px;
+    font-size: 0.9rem;
+}
+
+/* Footer Link */
+.footer {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #7a6c4f;
+}
+
+.footer a {
+    text-decoration: none;
+    color: #6b5b3e;
+    transition: 0.3s;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2 class="login-title">Employee Sign Up</h2>
+
+    <div class="input-group">
+        <label for="empName">Full Name</label>
+        <input type="text" id="empName" placeholder="Enter full name">
+    </div>
+
+    <div class="input-group">
+        <label for="empRole">Role</label>
+        <input type="text" id="empRole" placeholder="e.g. Barista">
+    </div>
+
+    <div class="input-group">
+        <label for="empContact">Contact</label>
+        <input type="text" id="empContact" placeholder="Phone or Email">
+    </div>
+
+    <div class="input-group">
+        <label for="empPassword">Password</label>
+        <input type="password" id="empPassword" placeholder="Enter a password">
+    </div>
+
+    <button type="button" class="signup-btn" onclick="employeeSignUp()">Sign Up</button>
+
+    <p class="error-msg" id="signupError"></p>
+
+    <div class="footer">
+        <a href="log-in.html">← Back to Log In</a>
+    </div>
+</div>
+
+
+
+</body>
+</html>

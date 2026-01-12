@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Employee Dashboard | COVE Coffee</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f7f4ea;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    background-color: #6b5b3e;
+    color: #fff;
+    height: 100vh;
+    position: fixed;
+    padding: 30px 20px;
+}
+
+.sidebar-logo {
+    width: 70px;
+    margin-bottom: 15px;
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: 0.3s;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+    background-color: #5a4b33;
+}
+
+/* Main Content */
+.main-content {
+    margin-left: 220px;
+    padding: 30px;
+}
+
+header h1 {
+    color: #6b5b3e;
+    font-size: 2rem;
+}
+
+/* Welcome */
+.welcome {
+    font-size: 1.2rem;
+    color: #7a6c4f;
+    margin-bottom: 25px;
+}
+
+/* Stats Cards */
+.cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.card {
+    flex: 1;
+    min-width: 180px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    text-align: center;
+    cursor: default;
+}
+
+.card h3 {
+    font-size: 1.2rem;
+    color: #6b5b3e;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #ff8c42;
+}
+
+/* Action Buttons */
+.actions {
+    margin-top: 20px;
+}
+
+.actions button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #ff8c42;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: 0.3s;
+}
+
+.actions button:hover {
+    background: #e67e22;
+}
+</style>
+
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <img src="../img/COVE-LOGO-removebg-preview.png" class="sidebar-logo" alt="COVE Logo">
+    <h2 class="logo-text">COVE Employee</h2>
+    <ul>
+        <li><a href="#" class="active">Dashboard</a></li>
+        <li><a href="employee_orders.html">Orders</a></li>
+        <li><a href="employee_profile.html">Profile</a></li>
+        <li><a href="#" onclick="logout()">Logout</a></li>
+    </ul>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+<header>
+    <h1>Welcome!</h1>
+</header>
+
+<p class="welcome" id="welcomeText"></p>
+
+<section class="stats-section">
+    <div class="cards">
+        <div class="card">
+            <h3>Orders Served</h3>
+            <p id="ordersServed">0</p>
+        </div>
+        <div class="card">
+            <h3>Total Sales</h3>
+            <p>₱<span id="totalSales">0</span></p>
+        </div>
+        <div class="card">
+            <h3>Today’s Tips</h3>
+            <p>₱<span id="tipsTotal">0</span></p>
+        </div>
+    </div>
+</section>
+
+<section class="actions">
+    <button onclick="location.href='employee_orders.html'">View Orders</button>
+    <button onclick="location.href='employee_profile.html'">My Profile</button>
+    <button onclick="logout()">Logout</button>
+</section>
+
+</div>
+
+<script>
+// PROTECT PAGE (Redirect if not logged in)
+const employee = JSON.parse(localStorage.getItem('loggedInEmployee'));
+if (!employee) {
+    window.location.href = "log-in.html";
+} else {
+    document.getElementById('welcomeText').textContent = 
+        "Hello, " + employee.name + "! Role: " + employee.role;
+}
+
+// SAMPLE STATS (you can connect these to real data)
+let ordersServed = localStorage.getItem('employeeOrdersServed') || 0;
+let totalSales = localStorage.getItem('employeeTotalSales') || 0;
+let tips = localStorage.getItem('employeeTips') || 0;
+
+document.getElementById('ordersServed').textContent = ordersServed;
+document.getElementById('totalSales').textContent = totalSales;
+document.getElementById('tipsTotal').textContent = tips;
+
+// LOGOUT
+function logout() {
+    localStorage.removeItem('loggedInEmployee');
+    window.location.href = "log-in.html";
+}
+</script>
+
+</body>
+</html>

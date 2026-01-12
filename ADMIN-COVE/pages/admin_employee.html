@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Employee Management | COVE Coffee</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    display: flex;
+    min-height: 100vh;
+    background: #f7f4ea;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    background-color: #6b5b3e;
+    color: #fff;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo-wrapper {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.sidebar-logo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+.logo-text {
+    font-size: 1.7rem;
+    font-weight: 700;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.sidebar ul {
+    list-style: none;
+    width: 100%;
+    padding: 0;
+}
+
+.sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+    background-color: #5a4b33;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 40px;
+}
+
+header h1 {
+    font-size: 2rem;
+    color: #6b5b3e;
+}
+
+header p {
+    font-size: 1rem;
+    color: #7a6c4f;
+    margin-bottom: 30px;
+}
+
+/* Employee Section */
+.employees-section {
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.section-header button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #ff8c42;
+    color: #fff;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.section-header button:hover {
+    background: #e67e22;
+}
+
+.filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.filters input {
+    padding: 5px 8px;
+    border: 1px solid #6b5b3e;
+    border-radius: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 10px;
+}
+
+table th {
+    background-color: #6b5b3e;
+    color: #fff;
+}
+
+td button {
+    margin: 0 3px;
+    padding: 4px 10px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.edit-btn { background: #4CAF50; }
+.edit-btn:hover { background: #45a049; }
+
+.delete-btn { background: #f44336; }
+.delete-btn:hover { background: #e53935; }
+
+/* Modals */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.modal .close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+}
+
+.modal input, .modal select {
+    width: 80%;
+    padding: 8px;
+    margin: 8px 0;
+    border: 1px solid #6b5b3e;
+    border-radius: 5px;
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <div class="logo-wrapper">
+        <img src="../img/COVE-LOGO-removebg-preview.png" class="sidebar-logo">
+        <h2 class="logo-text">COVE Admin</h2>
+    </div>
+    <ul>
+        <li><a href="admin-landing.html">Dashboard</a></li>
+        <li><a href="admin_orders.html">Sales</a></li>
+        <li><a href="admin_products.html">Products</a></li>
+        <li><a href="admin_employees.html" class="active">Employees</a></li>
+        <li><a href="../index.html">Logout</a></li>
+    </ul>
+</div>
+
+<!-- MAIN -->
+<div class="main-content">
+<header>
+    <h1>Employees</h1>
+</header>
+
+<section class="employees-section">
+    <div class="section-header">
+        <h2>Employee List</h2>
+        <button onclick="showEmployeeModal()">Add Employee</button>
+    </div>
+
+    <div class="filters">
+        <input type="text" id="employeeSearch" placeholder="Search by name..." oninput="renderEmployees()">
+    </div>
+
+    <table id="employeesTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Contact</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</section>
+</div>
+
+<!-- EMPLOYEE MODAL -->
+<div id="employeeModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeEmployeeModal()">&times;</span>
+        <h2 id="employeeModalTitle">Add Employee</h2>
+        <input type="text" id="empName" placeholder="Employee Name">
+        <input type="text" id="empRole" placeholder="Role (e.g., Barista)">
+        <input type="text" id="empContact" placeholder="Contact (Phone/Email)">
+        <button onclick="saveEmployee()">Save</button>
+    </div>
+</div>
+
+<script>
+let employees = JSON.parse(localStorage.getItem('employees')) || [];
+let editingEmpIndex = null;
+
+// Render employee table
+function renderEmployees(){
+    const tbody = document.querySelector('#employeesTable tbody');
+    const search = document.getElementById('employeeSearch').value.toLowerCase();
+    tbody.innerHTML = '';
+
+    employees.forEach((emp, index) => {
+        if(!search || emp.name.toLowerCase().includes(search)){
+            tbody.innerHTML += `<tr>
+                <td>${emp.name}</td>
+                <td>${emp.role}</td>
+                <td>${emp.contact}</td>
+                <td>
+                    <button class="edit-btn" onclick="editEmployee(${index})">Edit</button>
+                    <button class="delete-btn" onclick="deleteEmployee(${index})">Delete</button>
+                </td>
+            </tr>`;
+        }
+    });
+}
+
+// Show add modal
+function showEmployeeModal(){
+    editingEmpIndex = null;
+    document.getElementById('employeeModalTitle').textContent = 'Add Employee';
+    document.getElementById('empName').value = '';
+    document.getElementById('empRole').value = '';
+    document.getElementById('empContact').value = '';
+    document.getElementById('employeeModal').style.display = 'flex';
+}
+
+// Close modal
+function closeEmployeeModal(){
+    document.getElementById('employeeModal').style.display = 'none';
+}
+
+// Save employee
+function saveEmployee(){
+    const name = document.getElementById('empName').value.trim();
+    const role = document.getElementById('empRole').value.trim();
+    const contact = document.getElementById('empContact').value.trim();
+
+    if(!name || !role || !contact){
+        alert('Please fill all fields.');
+        return;
+    }
+
+    const employee = {name, role, contact};
+
+    if(editingEmpIndex !== null){
+        employees[editingEmpIndex] = employee;
+    } else {
+        employees.push(employee);
+    }
+
+    localStorage.setItem('employees', JSON.stringify(employees));
+    closeEmployeeModal();
+    renderEmployees();
+}
+
+// Edit employee
+function editEmployee(index){
+    editingEmpIndex = index;
+    const emp = employees[index];
+    document.getElementById('employeeModalTitle').textContent = 'Edit Employee';
+    document.getElementById('empName').value = emp.name;
+    document.getElementById('empRole').value = emp.role;
+    document.getElementById('empContact').value = emp.contact;
+    document.getElementById('employeeModal').style.display = 'flex';
+}
+
+// Delete employee
+function deleteEmployee(index){
+    if(confirm('Delete this employee?')){
+        employees.splice(index,1);
+        localStorage.setItem('employees', JSON.stringify(employees));
+        renderEmployees();
+    }
+}
+
+// Initial render
+renderEmployees();
+</script>
+
+</body>
+</html>
